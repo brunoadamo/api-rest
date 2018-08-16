@@ -1,0 +1,48 @@
+TUTORIAL LARAVEL RESTFUL API==============================
+
+
+composer global require laravel/installer
+laravel new <nome do app>
+php artisan serve --startar o server php
+
+--Editar o arquivo .env e alterar as configurações necessárias
+
+--criar model
+ php artisan make:model <MODEL NAME> -m <--migration>
+
+--migrate
+php artisan migrate
+
+--database seeding
+php artisan make:seeder <CLASS NAME>TableSeeder
+--editar o arquivo seeder para inserir dados aleatorios
+--rodar a seed
+php artisan db:seed --class=<TableSeeder>
+--rodar todas as seeds
+-- add code ao DatabaseSeeder
+$this->call(<TableSeeder>::class);
+
+--criar controller
+php artisan make:controller <CLASS NAME>Controller
+~
+
+--em routes/api.php define os caminhos de acesso
+
+--tratar 404 em app/Exceptions/Handler.php
+
+public function render($request, Exception $exception)
+{
+    // This will replace our 404 response with
+    // a JSON response.
+    if ($exception instanceof ModelNotFoundException &&
+        $request->wantsJson())
+    {
+        return response()->json([
+            'data' => 'Resource not found'
+        ], 404);
+    }
+
+    return parent::render($request, $exception);
+}
+
+--Authentication
